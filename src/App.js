@@ -1,20 +1,9 @@
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Linking, ScrollView, Image, Animated } from "react-native";
-import { Easing } from "react-native-reanimated";
+import { View, Text, TouchableOpacity, StyleSheet, Linking, ScrollView, Image, Platform } from "react-native";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLinkedin, faGithub, faDropbox } from '@fortawesome/free-brands-svg-icons';
 
 const App = () => {
-  const fadeIn = new Animated.Value(0);  // For fade-in animation
-
-  // Trigger fade-in animation when the component mounts
-  React.useEffect(() => {
-    Animated.timing(fadeIn, {
-      toValue: 1,
-      duration: 1000,
-      easing: Easing.ease,
-      useNativeDriver: true,
-    }).start();
-  }, []);
-
   const handleResumeDownload = () => {
     const link = document.createElement("a");
     link.href = "/Resume.pdf";
@@ -24,125 +13,74 @@ const App = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Animated.View style={{ ...styles.headerContainer, opacity: fadeIn }}>
-        <Image
-          source={{ uri: 'https://your-profile-image-url.jpg' }} // Add your profile image URL here
-          style={styles.profileImage}
-        />
-        <Text style={styles.header}>Carter Reid</Text>
-        <Text style={styles.subHeader}>Software Engineer | Problem Solver | Creator</Text>
-      </Animated.View>
-
-      <View style={styles.aboutContainer}>
-        <Text style={styles.sectionTitle}>About Me</Text>
-        <Text style={styles.sectionText}>
-          I'm a passionate software engineer with experience in building applications
-          using modern tech stacks. I am always striving to learn new technologies and
-          improve my skills.
-        </Text>
-      </View>
-
+      <Text style={styles.header}>Welcome to My Personal Page</Text>
       <Text style={styles.subtitle}>Here are some useful links:</Text>
 
       <View style={styles.linksContainer}>
-        {/* LinkedIn Button */}
         <TouchableOpacity
           style={styles.button}
           onPress={() => Linking.openURL("https://www.linkedin.com/in/carter-reid-a98443254/")}
         >
+          <FontAwesomeIcon icon={faLinkedin} size={24} color="white" style={styles.icon} />
           <Text style={styles.buttonText}>LinkedIn</Text>
         </TouchableOpacity>
 
-        {/* GitHub Button */}
         <TouchableOpacity
           style={styles.button}
           onPress={() => Linking.openURL("https://github.com/ArcticCodeMonkeys")}
         >
+          <FontAwesomeIcon icon={faGithub} size={24} color="white" style={styles.icon} />
           <Text style={styles.buttonText}>GitHub</Text>
         </TouchableOpacity>
 
-        {/* Resume Button */}
         <TouchableOpacity style={styles.button} onPress={handleResumeDownload}>
+          <FontAwesomeIcon icon={faDropbox} size={24} color="white" style={styles.icon} />
           <Text style={styles.buttonText}>Download Resume</Text>
         </TouchableOpacity>
       </View>
 
-      <View style={styles.contactContainer}>
-        <Text style={styles.sectionTitle}>Contact</Text>
-        <Text style={styles.sectionText}>Email: carter.reid@example.com</Text>
-        <Text style={styles.sectionText}>Phone: +1 (555) 123-4567</Text>
+      <View style={styles.aboutContainer}>
+        <Text style={styles.aboutText}>
+          I'm Carter, a passionate developer with experience in multiple programming languages, including JavaScript, Python, and C++. I'm always striving to learn new technologies and work on impactful projects. Feel free to reach out to me if you'd like to collaborate!
+        </Text>
       </View>
+
+      {/* Display an avatar or profile image */}
+      <Image
+        source={require('./assets/profile.jpeg')} // Reference the local image here
+        style={styles.profileImage}
+      />
     </ScrollView>
   );
 };
 
-// Styling
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    justifyContent: "flex-start",
+    justifyContent: "center",
     alignItems: "center",
     padding: 20,
-    backgroundColor: "#f0f4f8",
+    backgroundColor: "#f0f8ff", // Soft blue background
     minHeight: "100vh", // Ensure it takes up the full height
   },
-  headerContainer: {
-    alignItems: "center",
-    marginBottom: 40,
-  },
-  profileImage: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
-    marginBottom: 20,
-    borderWidth: 4,
-    borderColor: "#007BFF",
-  },
   header: {
-    fontSize: 42,
-    fontWeight: "bold",
-    color: "#333",
-    marginBottom: 5,
-    textAlign: "center",
-  },
-  subHeader: {
-    fontSize: 18,
-    color: "#666",
+    fontSize: 36,
+    fontWeight: "900",
+    color: "#1a1a1a",
     marginBottom: 20,
     textAlign: "center",
-  },
-  aboutContainer: {
-    width: "100%",
-    backgroundColor: "#fff",
-    padding: 20,
-    marginBottom: 40,
-    borderRadius: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 6,
-    elevation: 5,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "#333",
-    marginBottom: 10,
-  },
-  sectionText: {
-    fontSize: 16,
-    color: "#555",
-    lineHeight: 24,
+    fontFamily: "Roboto", // Modern font
   },
   subtitle: {
-    fontSize: 18,
+    fontSize: 20,
     color: "#555",
     marginBottom: 30,
     textAlign: "center",
+    fontFamily: "Roboto",
   },
   linksContainer: {
     width: "100%",
-    justifyContent: "space-evenly",
+    justifyContent: "center",
     alignItems: "center",
     marginTop: 20,
     marginBottom: 40,
@@ -152,26 +90,61 @@ const styles = StyleSheet.create({
     paddingVertical: 15,        // Vertical padding for button height
     paddingHorizontal: 30,      // Horizontal padding for button width
     marginVertical: 10,        // Vertical margin for spacing between buttons
-    borderRadius: 5,           // Rounded corners
+    borderRadius: 10,          // Rounded corners
     width: "80%",              // Button width
     alignItems: "center",      // Center text inside button
-    elevation: 3,              // Subtle shadow for buttons
+    flexDirection: "row",      // Ensure the icon and text are aligned in a row
+    justifyContent: "center",  // Ensure the text is centered with the icon
+    shadowColor: "#000",       // Shadow for depth
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    elevation: 5,              // iOS/Android shadow
+    transition: "all 0.3s ease-in-out",
   },
   buttonText: {
     color: "#fff",             // White text color
     fontSize: 18,              // Text size
     fontWeight: "bold",        // Bold text
+    marginLeft: 10,            // Space between icon and text
+    fontFamily: "Roboto",      // Modern font
   },
-  contactContainer: {
-    width: "100%",
-    backgroundColor: "#fff",
+  icon: {
+    marginRight: 10,           // Space between icon and text
+  },
+  aboutContainer: {
+    marginTop: 40,
     padding: 20,
+    backgroundColor: "#fff",
     borderRadius: 10,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.1,
-    shadowRadius: 6,
+    shadowRadius: 10,
     elevation: 5,
+    width: "80%",
+    maxWidth: 600,
+  },
+  aboutText: {
+    fontSize: 16,
+    color: "#333",
+    textAlign: "center",
+    lineHeight: 24,
+    fontFamily: "Roboto",
+  },
+  profileImage: {
+    width: 150,
+    height: 150,
+    borderRadius: 75, // Circular image
+    marginTop: 30,
+    marginBottom: 40,
+    borderWidth: 5,
+    borderColor: "#fff", // White border
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    elevation: 5, // For Android shadow
   },
 });
 
