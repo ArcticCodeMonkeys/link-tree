@@ -35,6 +35,7 @@ const projects = [
   },
 ];
 
+
 function ProjectVideo({ src, title }) {
   const videoRef = useRef(null);
 
